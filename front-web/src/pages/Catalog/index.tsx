@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import ProductCard from './components/ProductCard';
 import './styles.scss';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import { makeRequest } from 'core/utils/request';
 import { ProductsResponse } from 'core/types/Product';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
+import Pagination from 'core/components/Pagination';
 
 const Catalog = () =>{
 
     const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
     const [isLoading, setIsLoading]= useState(false);
+    const [activePage, setActivePage] = useState(0);
     console.log(productsResponse);
     //quando o componente iniciar, busca a lista de proudutos
     // quando a lista de produtos estiver disponivel,
@@ -18,8 +19,8 @@ const Catalog = () =>{
 
 useEffect(()=>{
     const params ={
-        page:0,
-        linesPerPage:12
+        page:activePage,
+        linesPerPage:5
     }
 
     setIsLoading(true);
@@ -28,7 +29,7 @@ useEffect(()=>{
         .finally(() =>{
             setIsLoading(false);
         })
-},[]);
+},[activePage]);
 
     return (
     <div className="catalog-container">
@@ -41,6 +42,13 @@ useEffect(()=>{
             ))  
             )}
        </div>
+       {productsResponse && (
+       <Pagination 
+       totalPages={productsResponse?.totalPages}
+       activePage={activePage}
+       onChange={page => setActivePage(page)}
+       />
+       )}
     </div>
     
     )
