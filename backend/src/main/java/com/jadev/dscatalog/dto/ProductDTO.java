@@ -10,6 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 
 import com.jadev.dscatalog.entities.Category;
 import com.jadev.dscatalog.entities.Product;
@@ -19,13 +22,18 @@ public class ProductDTO implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message="Campo Obrigatorio")
 	private String name;
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
+	@Positive(message="O valor deve ser positivo")
 	private Double price;
 	private String imgUrl;
 	
+	@PastOrPresent(message="A data não pode ser futura")
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant date;
 	
