@@ -4,22 +4,24 @@ import {Link} from 'react-router-dom'
 import {useForm} from 'react-hook-form';
 import AuthCard from '../Card';
 import './styles.scss'
+import { makeLogin } from 'core/utils/request';
 
 type FormData ={
-    email: string;
+    username: string;
     password:string;
 }
 const Login = () =>{
     const {register, handleSubmit} = useForm();
     const onSubmit = (data:FormData) => {
         console.log(data);
+        makeLogin(data)
     }
     return (
         <div>
             <AuthCard title="Login">
                 <form className="LoginForm" onSubmit={handleSubmit(onSubmit)}>
                    
-                    <input className="form-control input-base margin-bottom-30" type="email" placeholder="Email" name="email" ref={register} ></input>
+                    <input className="form-control input-base margin-bottom-30" type="email" placeholder="Email" name="username" ref={register} ></input>
                     <input className="form-control input-base" type="password" placeholder="Password" name="password" ref={register}></input>
                     
 
