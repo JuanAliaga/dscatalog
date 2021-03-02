@@ -12,7 +12,7 @@ type FormData ={
     password:string;
 }
 const Login = () =>{
-    const {register, handleSubmit} = useForm();
+    const {register, handleSubmit,errors} = useForm();
     const [hasError,setHasError] = useState(false);
     const history = useHistory();
 
@@ -33,9 +33,26 @@ const Login = () =>{
             <AuthCard title="Login">
                 {hasError && (<div className="alert alert-danger">Usuario ou senha invalidos</div>)}
                 <form className="LoginForm" onSubmit={handleSubmit(onSubmit)}>
-                   
-                    <input className="form-control input-base margin-bottom-30" type="email" placeholder="Email" name="username" ref={register({required:true})} ></input>
-                    <input className="form-control input-base" type="password" placeholder="Password" name="password" ref={register({required:true})}></input>
+                   <div className="margin-bottom-30">
+                        <input className={`form-control input-base ${errors.username ? 'is-invalid': '' }`} type="email" placeholder="Email" name="username" 
+                        ref={register({
+                            required: "Campo obrigatório",
+                            pattern: {
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message: "Email inválido"
+                            }
+                          })}
+                           ></input>
+                        {errors.username && (
+                                                    <div className="invalid-feedback d-block">{errors.username.message}</div>
+                        )}
+                    </div>
+                    <div>
+                        <input className={`form-control input-base ${errors.password ? 'is-invalid': '' }`}  type="password" placeholder="Password" name="password" ref={register({required:true})}></input>
+                        {errors.password && (
+                                                    <div className="invalid-feedback d-block">Campo Invalido</div>
+                        )}
+                    </div>
                     
 
                     <Link to="/admin/auth/recover" className="login-link-recover">
