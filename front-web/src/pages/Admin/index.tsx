@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Products from './components/Products';
+import PrivateRoute from 'core/components/Routes/PrivateRoute';
+
 import './styles.scss';
 
 const Admin = () =>{
@@ -10,16 +12,16 @@ const Admin = () =>{
         <NavBar/>
         <div className="admin-content">
             <Switch>
-                <Route path="/admin/products">
+                <PrivateRoute path="/admin/products">
                     <Products/>
                     <h1>Produtos</h1>
-                </Route>
-                <Route path="/admin/categories">
+                </PrivateRoute>
+                <PrivateRoute path="/admin/categories">
                 <h1>Categorias</h1>
-                </Route>
-                <Route path="/admin/users">
+                </PrivateRoute>
+                <PrivateRoute path="/admin/users" allowedRoutes={['ROLE_ADMIN']}>
                 <h1>Usuarios</h1>
-                </Route>
+                </PrivateRoute>
                 
             </Switch>
         </div>
