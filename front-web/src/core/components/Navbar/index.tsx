@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.scss';
 import {Link, NavLink} from 'react-router-dom';
+import { isAllowedByRole } from 'core/utils/auth';
 
 const Navbar = () =>{
     return (
@@ -23,10 +24,12 @@ const Navbar = () =>{
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin" activeClassName="active">
-                            ADMIN
-                        </NavLink>
+                                <NavLink to="/admin" activeClassName="active">
+                                ADMIN
+                            </NavLink>
                     </li>
+                    
+                        
                 </ul>
             </div>
         </nav>
