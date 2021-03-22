@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 export const CLIENT_ID = 'dscatalog';
 export const CLIENT_SECRET = 'dscatalog123';
+import history from './history';
 
 type LoginResponse={
     access_token:string;
@@ -60,4 +61,9 @@ export const isAllowedByRole = (routeRoles: Role[] = [])=>{
     }
     const {authorities} = getAccessTokenDecoded();
     return routeRoles.some(role => authorities?.includes(role));
+}
+
+export const logout = () =>{
+    localStorage.removeItem('authData');
+    history.replace('/auth/login');
 }
