@@ -1,4 +1,5 @@
 import { makePrivateRequest } from 'core/utils/request';
+import {useForm} from 'react-hook-form';
 import React, { useState } from 'react';
 import BaseForm from '../../BaseForm';
 import './styles.scss';
@@ -8,80 +9,80 @@ type FormState ={
     price:string;
     category:string;
     description:string;
+    imgUrl:string;
 }
 
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
- 
 const Form = () =>{
-    const [formData,setFormData] = useState<FormState>({
-        name:'',
-        price:'',
-        category:'2',
-        description:'',
-    });
+    const {register,handleSubmit, errors} = useForm<FormState>();
 
- 
-
-    const handleOnChange =(event: FormEvent ) =>{
-        const name = event.target.name;
-        const value = event.target.value;
-        setFormData(data =>({...data,[name]:value}));
-    }
-
-    const handleSubmit =(event: React.FormEvent<HTMLFormElement>) =>{
-        event.preventDefault();
-        const payload ={
-            ...formData,
-            imgUrl:'https://www.techinn.com/f/13776/137769821/sony-ps5.jpg',
-            categories:[{id: formData.category}],
-        }
-        console.log(payload);
-        makePrivateRequest({url: '/products/' , method:"POST", data:payload})
-        .then(() => {
-            setFormData({name:"", category:'', price: '', description:''});
-        })
+   
+    const onSubmit =(data:FormState) =>{
+        console.log(data);
+       makePrivateRequest({url:'/products',method:'POST',data})
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <BaseForm title="Cadastrar um Produto">
                 <div className="row">
                     <div className="col-6 mt-5">
+                        <div className="margin-bottom-30">
                             <input 
-                            value={formData.name}
+                            ref={register({required: "Campo obrigatório",
+                            minLength:{value:5, message: "O campo deve ter no minimo 5 caracteres"},
+                            maxLength:{value:60, message: "O campo deve ter no maximo 60 caracteres"}
+                            })}
                             name="name"
                             type="text" 
-                            className="form-control mb-5" 
-                            onChange={handleOnChange}
+                            className="form-control input-base" 
+                            
                             placeholder="Nome"
                             >
-                                
                             </input>
-                            <select value={formData.category} name="category" className="form-control mb-5" onChange={handleOnChange}>
-                                <option value="1">Livros</option>
-                                <option value="3">Computadores</option>
-                                <option value="2">Eletronicos</option>
-                            </select>
+                            {errors.name && (
+                                                    <div className="invalid-feedback d-block">{errors.name.message}</div>
+                        )}
+                        </div>
+                        <div className="margin-bottom-30">
                             <input 
-                            value={formData.price}
+                            ref={register({required: "Campo obrigatório"})}
                             name="price"
                             type="text" 
-                            className="form-control" 
-                            onChange={handleOnChange}
+                            className="form-control  input-base" 
+                            
                             placeholder="Preço"
                             >
                             </input>
+                            {errors.price && (
+                                                    <div className="invalid-feedback d-block">{errors.price.message}</div>
+                        )}
+                        </div>                              
+                        <div className="margin-bottom-30">
+                        <input 
+                            ref={register({required: "Campo obrigatório"})}
+                            name="imgUrl"
+                            type="text" 
+                            className="form-control input-base" 
                             
+                            placeholder="Imagem do produto"
+                            >
+                            </input>
+                            {errors.imgUrl && (
+                                                    <div className="invalid-feedback d-block">{errors.imgUrl.message}</div>
+                        )}
+                        </div>                       
                     </div>
                     <div className="col-6">
-                        <textarea name="description" 
-                            value={formData.description}
+                        <textarea name="description"                         
+                            ref={register({required: "Campo obrigatório"})}
                             className="form-control"
-                            onChange={handleOnChange}
                             cols={30} 
                             rows={18}>
 
                         </textarea>
+                        {errors.description && (
+                                                    <div className="invalid-feedback d-block">{errors.description.message}</div>
+                        )}
                     </div>
                 </div>
             </BaseForm>

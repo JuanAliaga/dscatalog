@@ -1,7 +1,8 @@
 import jwtDecode from 'jwt-decode';
+import history from './history';
 export const CLIENT_ID = 'dscatalog';
 export const CLIENT_SECRET = 'dscatalog123';
-import history from './history';
+
 
 type LoginResponse={
     access_token:string;
