@@ -34,7 +34,6 @@ public class ProductDTO implements Serializable{
 	private String imgUrl;
 	
 	@PastOrPresent(message="A data não pode ser futura")
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant date;
 	
 	private List<CategoryDTO> categories = new ArrayList<>();
