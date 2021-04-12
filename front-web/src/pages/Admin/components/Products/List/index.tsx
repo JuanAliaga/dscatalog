@@ -1,8 +1,9 @@
 import Pagination from 'core/components/Pagination';
 import {ProductsResponse } from 'core/types/Product';
-import { makeRequest } from 'core/utils/request';
-import React, { useEffect, useState } from 'react';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Card from '../Card';
 
 const List = () =>{
@@ -16,11 +17,8 @@ const List = () =>{
     const [isLoading, setIsLoading]= useState(false);
     const [activePage, setActivePage] = useState(0);
     console.log(productsResponse);
-    //quando o componente iniciar, busca a lista de proudutos
-    // quando a lista de produtos estiver disponivel,
-    //popular um estado no componente, e listar os produtos dinamicamente
 
-    useEffect(()=>{
+    const getProducts = useCallback(() => {
         const params ={
             page:activePage,
             linesPerPage:4,
@@ -34,7 +32,32 @@ const List = () =>{
             .finally(() =>{
                 setIsLoading(false);
             })
-    },[activePage]);
+    },[activePage])
+    //quando o componente iniciar, busca a lista de proudutos
+    // quando a lista de produtos estiver disponivel,
+    //popular um estado no componente, e listar os produtos dinamicamente
+
+    useEffect(()=>{
+       getProducts();
+    },[getProducts]);
+
+    const onRemove = (productId: number)=>{
+        const confirm = window.confirm('Deseja realmente excluir esse produto?');
+        
+        if(confirm){
+            makePrivateRequest({
+                url:`/products/${productId}`,
+                method: 'DELETE'
+            })
+            .then(()=>{
+                toast.info('Produto removido com sucesso');
+                getProducts();
+            })
+            .catch(()=>{
+                toast.error('Erro ao remover produto');
+            })
+        }
+    }
 
     return (
         <div className="admin-products-list">
@@ -43,7 +66,7 @@ const List = () =>{
             </button>
         <div className="admin-list-container">
             {productsResponse?.content.map(product => (
-                <Card product={product} key={product.id}/>
+                <Card product={product} key={product.id} onRemove={onRemove}/>
                 )
                 )
             }
