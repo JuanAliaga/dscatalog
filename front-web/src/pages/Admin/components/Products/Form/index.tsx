@@ -8,8 +8,9 @@ import './styles.scss';
 import { useHistory, useParams } from 'react-router';
 import { Category } from 'core/types/Product';
 import { url } from 'inspector';
+import PriceField from './PriceField'
 
-type FormState ={
+export type FormState ={
     name:string;
     price:string;
     categories:Category[];
@@ -99,6 +100,7 @@ const Form = () =>{
                                 getOptionValue={(option:Category)=> String(option.id)}
                                 classNamePrefix="categories-select"
                                 placeholder="Categoria"
+                                defaultValue=""
                                 isMulti
                                 />
                                  {errors.categories && (
@@ -106,15 +108,7 @@ const Form = () =>{
                         )}
                         </div>
                         <div className="margin-bottom-30">
-                            <input 
-                            ref={register({required: "Campo obrigatório"})}
-                            name="price"
-                            type="text" 
-                            className="form-control  input-base" 
-                            
-                            placeholder="Preço"
-                            >
-                            </input>
+                           <PriceField control={control}/>
                             {errors.price && (
                                                     <div className="invalid-feedback d-block">{errors.price.message}</div>
                         )}
