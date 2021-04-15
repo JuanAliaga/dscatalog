@@ -9,7 +9,6 @@ const Products = () =>{
             <Switch>
                 <Route path="/admin/products" exact>
                     <List></List>
-                    <h1>Listagem de Products</h1>
                 </Route>
                 <Route path="/admin/products/:productId">
                     <Form/>

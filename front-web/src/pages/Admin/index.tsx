@@ -5,6 +5,7 @@ import Products from './components/Products';
 import PrivateRoute from 'core/components/Routes/PrivateRoute';
 
 import './styles.scss';
+import Users from './Users';
 
 const Admin = () =>{
     return (
@@ -14,13 +15,11 @@ const Admin = () =>{
             <Switch>
                 <PrivateRoute path="/admin/products">
                     <Products/>
-                    <h1>Produtos</h1>
                 </PrivateRoute>
                 <PrivateRoute path="/admin/categories">
-                <h1>Categorias</h1>
                 </PrivateRoute>
                 <PrivateRoute path="/admin/users" allowedRoutes={['ROLE_ADMIN']}>
-                <h1>Usuarios</h1>
+                    <Users/>
                 </PrivateRoute>
                 
             </Switch>
