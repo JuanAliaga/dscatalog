@@ -7,7 +7,6 @@ import BaseForm from '../../BaseForm';
 import './styles.scss';
 import { useHistory, useParams } from 'react-router';
 import { Category } from 'core/types/Product';
-import { url } from 'inspector';
 import PriceField from './PriceField'
 
 export type FormState ={

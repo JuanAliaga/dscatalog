@@ -1,40 +1,40 @@
 import Pagination from 'core/components/Pagination';
 import ProductFilters from 'core/components/ProductFilters';
-import {Category, ProductsResponse, UsersResponse } from 'core/types/Product';
+import {CategoriesResponse, Category,} from 'core/types/Product';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Card from '../Card';
-import CardLoader from '../Loaders/UserCardLoader';
+import CardLoader from '../Loaders/CategoryCardLoader'
 
 
 const List = () =>{
     const history = useHistory();
 
     const handleCreate = () => {
-        history.push('/admin/users/create');
+        history.push('/admin/categories/create');
     }
 
-    const [usersResponse, setUsersResponse] = useState<UsersResponse>();
+    const [categoriesResponse, setCategoriesResponse] = useState<CategoriesResponse>();
     const [isLoading, setIsLoading]= useState(false);
     const [activePage, setActivePage] = useState(0);
     const [name,setName] = useState('');
     const [category,setCategory] = useState<Category>();
-    console.log(usersResponse);
+    console.log(categoriesResponse);
 
-    const getUsers = useCallback(() => {
+    const getCategories = useCallback(() => {
         const params ={
             page:activePage,
             linesPerPage:4,
             direction: 'DESC',
             orderBy:'id',
-            firstName:name,
+            name:name
         }
 
         setIsLoading(true);
-        makePrivateRequest({url: '/users', params})
-            .then(response => setUsersResponse(response.data))
+        makeRequest({url: '/categories', params})
+            .then(response => setCategoriesResponse(response.data))
             .finally(() =>{
                 setIsLoading(false);
             })
@@ -44,23 +44,23 @@ const List = () =>{
     //popular um estado no componente, e listar os produtos dinamicamente
 
     useEffect(()=>{
-       getUsers();
-    },[getUsers]);
+        getCategories();
+    },[getCategories]);
 
-    const onRemove = (userId: number)=>{
+    const onRemove = (categoryId: number)=>{
         const confirm = window.confirm('Deseja realmente excluir esse produto?');
         
         if(confirm){
             makePrivateRequest({
-                url:`/users/${userId}`,
+                url:`/categories/${categoryId}`,
                 method: 'DELETE'
             })
             .then(()=>{
-                toast.info('Produto removido com sucesso');
-                getUsers();
+                toast.info('Categoria removida com sucesso');
+                getCategories();
             })
             .catch(()=>{
-                toast.error('Erro ao remover produto');
+                toast.error('Erro ao remover categoria');
             })
         }
     }
@@ -90,15 +90,15 @@ const List = () =>{
             <ProductFilters name={name} category={category} handleChangeCategory={handleChangeCategory} handleChangeName={handleChangeName} clearFilters={clearFilters}/>
             </div>
         <div className="admin-list-container">
-            {isLoading ? <CardLoader/> : usersResponse?.content.map(user => (
-                <Card user={user} key={user.id} onRemove={onRemove}/>
+            {isLoading ? <CardLoader/> : categoriesResponse?.content.map(category => (
+                <Card category={category} key={category.id} onRemove={onRemove}/>
                 )
                 )
             }
         </div>
-        {usersResponse && (
+        {categoriesResponse && (
        <Pagination 
-       totalPages={usersResponse?.totalPages}
+       totalPages={categoriesResponse?.totalPages}
        activePage={activePage}
        onChange={page => setActivePage(page)}
        />

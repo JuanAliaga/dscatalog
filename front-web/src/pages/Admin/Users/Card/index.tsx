@@ -17,11 +17,11 @@ const Card = ({user,onRemove}:Props) => {
                 <div className="col-4">
                     <h3 className="item-text">{user.email}</h3>
                 </div>
-                <div className="col-3 d-flex">
-                <Link to={`/admin/users/${user.id}`} key={user.id} type="button" className="btn btn-outline-secondary btn-block border-radius-10 mb-3 mr-2">
+                <div className="col-3 d-flex ">
+                <Link to={`/admin/users/${user.id}`} key={user.id} type="button" className="btn btn-styles btn-outline-secondary mr-5">
                     Editar
                 </Link>
-                <button type="button" className="btn btn-outline-danger btn-block border-radius-10" onClick={()=> onRemove(user.id)}>Excluir</button>
+                <button type="button" className="btn btn-styles btn-outline-danger " onClick={()=> onRemove(user.id)}>Excluir</button>
                 </div>
             </div>
         </div>

@@ -5,6 +5,11 @@ export type ProductsResponse = {
     totalPages: number;
 }
 
+export type CategoriesResponse = {
+    content: Category[];
+    totalPages: number;
+}
+
 export type UsersResponse = {
     content: User[];
     totalPages: number;
@@ -31,4 +36,10 @@ export type User = {
     firstName: string,
 	lastName:string,
 	email:string,
+    roles:Role[],
+}
+
+export type Role={
+    id:number;
+    authority:`ROLE_OPERATOR` | `ROLE_ADMIN`;
 }
