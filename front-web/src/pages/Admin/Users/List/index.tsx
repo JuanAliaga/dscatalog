@@ -1,7 +1,7 @@
 import Pagination from 'core/components/Pagination';
 import ProductFilters from 'core/components/ProductFilters';
-import {Category, ProductsResponse, UsersResponse } from 'core/types/Product';
-import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import {Category, UsersResponse } from 'core/types/Product';
+import { makePrivateRequest } from 'core/utils/request';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -20,7 +20,6 @@ const List = () =>{
     const [isLoading, setIsLoading]= useState(false);
     const [activePage, setActivePage] = useState(0);
     const [name,setName] = useState('');
-    const [category,setCategory] = useState<Category>();
     console.log(usersResponse);
 
     const getUsers = useCallback(() => {
@@ -38,11 +37,8 @@ const List = () =>{
             .finally(() =>{
                 setIsLoading(false);
             })
-    },[activePage,name,category])
-    //quando o componente iniciar, busca a lista de proudutos
-    // quando a lista de produtos estiver disponivel,
-    //popular um estado no componente, e listar os produtos dinamicamente
-
+    },[activePage,name])
+   
     useEffect(()=>{
        getUsers();
     },[getUsers]);
@@ -72,12 +68,10 @@ const List = () =>{
 
     const handleChangeCategory= (category:Category)=>{
         setActivePage(0);
-        setCategory(category);
     }
 
     const clearFilters = ()=>{
         setActivePage(0);
-        setCategory(undefined);
         setName('');
     }
 
@@ -87,7 +81,7 @@ const List = () =>{
             <button className="btn btn-primary" onClick={handleCreate}>
                 ADICIONAR
             </button>
-            <ProductFilters name={name} category={category} handleChangeCategory={handleChangeCategory} handleChangeName={handleChangeName} clearFilters={clearFilters}/>
+            <ProductFilters name={name}  handleChangeCategory={handleChangeCategory} handleChangeName={handleChangeName} clearFilters={clearFilters}/>
             </div>
         <div className="admin-list-container">
             {isLoading ? <CardLoader/> : usersResponse?.content.map(user => (

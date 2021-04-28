@@ -1,30 +1,23 @@
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import BaseForm from 'pages/Admin/components/BaseForm';
 import React from 'react';
-import { useState,useEffect} from 'react';
 import { useForm } from 'react-hook-form';
-
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 type FormState ={
     name:string;
 }
-type ParamsType={
-    categoryId:string;
-}
 
 const Form = () =>{
-    const {register,handleSubmit, errors,setValue} = useForm<FormState>();
+    const {register,handleSubmit, errors} = useForm<FormState>();
     const history = useHistory();
-    const {categoryId} = useParams<ParamsType>();
-    const isEditing = categoryId !== 'create';
-    const formTitle = isEditing ? 'Editar um Produto' : 'Cadastrar um Produto';
+    const formTitle =  'Cadastrar um Categoria';
    
     const onSubmit =(data:FormState) =>{
        makePrivateRequest({
-           url: isEditing ? `/categories/${categoryId}` : '/categories',
-           method: isEditing ? 'PUT' : 'POST',
+           url:  '/categories',
+           method:  'POST',
            data
         })
        .then(()=>{

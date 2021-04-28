@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {Switch } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Products from './components/Products';
 import PrivateRoute from 'core/components/Routes/PrivateRoute';

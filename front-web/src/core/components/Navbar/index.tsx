@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import {Link, NavLink, useLocation} from 'react-router-dom';
-import { getAccessTokenDecoded, isAllowedByRole, logout } from 'core/utils/auth';
+import { getAccessTokenDecoded, logout } from 'core/utils/auth';
 
 const Navbar = () =>{
     const [currentUser,setCurrentUser]= useState('');

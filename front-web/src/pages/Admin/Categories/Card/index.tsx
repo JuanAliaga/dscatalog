@@ -1,6 +1,5 @@
-import { Category, User } from 'core/types/Product';
+import { Category } from 'core/types/Product';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './styles.scss'
 
 type Props = {
