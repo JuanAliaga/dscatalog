@@ -27,6 +27,7 @@ axios.interceptors.response.use(function(response){
 });
 
 const BASE_URL = 'http://localhost:8080';
+
 export const makeRequest = ({method = 'GET', url, data,params,headers}: RequestParams) =>{
     return axios({
         method,

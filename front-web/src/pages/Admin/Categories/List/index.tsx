@@ -39,9 +39,6 @@ const List = () =>{
                 setIsLoading(false);
             })
     },[activePage,name,category])
-    //quando o componente iniciar, busca a lista de proudutos
-    // quando a lista de produtos estiver disponivel,
-    //popular um estado no componente, e listar os produtos dinamicamente
 
     useEffect(()=>{
         getCategories();
