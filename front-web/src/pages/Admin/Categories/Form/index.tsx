@@ -1,4 +1,4 @@
-import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import { makePrivateRequest } from 'core/utils/request';
 import BaseForm from 'pages/Admin/components/BaseForm';
 import React from 'react';
 import { useForm } from 'react-hook-form';
